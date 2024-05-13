@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose')
+const logger = require('morgan')
 const Todos = require('./models/todos')
 
 app.use(bodyParser.json())
@@ -10,6 +11,13 @@ mongoose.connect('mongodb://localhost:27017/learn-api', {
     /*useNewUrlParser: true,
     useUnifiedTopology: true,*/
 })
+
+app.use(logger('dev'))
+
+app.get('/', (request, response) =>{
+    response.end('Hello rayyeayyen!')
+})
+
 
 app.get('/todo', (req, res) => {
     Todos.find({}).then((items) => {
