@@ -11,8 +11,17 @@ mongoose.connect('mongodb://localhost:27017/learn-api', {
     useUnifiedTopology: true,*/
 })
 
-app.get('/', (request, response) => {
-    response.end('Hello world!')
+app.get('/todo', (req, res) => {
+    Todos.find({}).then((items) => {
+        res.json({
+            data: items,
+            message: 'Sukses Memdapatkan Semua Data',
+        })
+    })
+})
+
+app.get('/todo/:id', (req, res) => {
+    // TODO: implement it :)
 })
 
 app.post('/todo', (req, res) => {
@@ -27,13 +36,12 @@ app.post('/todo', (req, res) => {
     })
 })
 
-app.get('/todo', (req, res) => {
-    Todos.find({}).then((items) => {
-        res.json({
-            data: items,
-            message: 'Sukses Memdapatkan Semua Data',
-        })
-    })
+app.put('/todo/:id', (req, res) => {
+    // TODO: implement it :)
+})
+
+app.delete('/todo/:id', (req, res) => {
+    // TODO: implement it :)
 })
 
 app.listen(3001, () => {
