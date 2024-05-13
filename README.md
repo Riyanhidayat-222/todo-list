@@ -1,1 +1,1 @@
-This is ToDo list REST API service using ExpressJS and MongoDB
+Create ToDo list using ExpressJS and MongoDB
