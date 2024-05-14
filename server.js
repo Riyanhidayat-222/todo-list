@@ -1,8 +1,8 @@
 const express = require('express')
 const app = express()
-const bodyParser = require('body-parser');
 const mongoose = require('mongoose')
 const logger = require('morgan')
+const bodyParser = require('body-parser')
 const Todos = require('./models/todos')
 
 app.use(bodyParser.json())
@@ -12,25 +12,28 @@ mongoose.connect('mongodb://localhost:27017/learn-api', {
     useUnifiedTopology: true,*/
 })
 
+// HTTP Methods
+// GET
+// POST
+// PATH
+// PUT
+// DELATE
+
 app.use(logger('dev'))
+app.use(bodyParser.json())
+app.use(
+    bodyParser.urlencoded({
+        extended: true,
+    })
+)
 
 app.get('/', (request, response) =>{
     response.end('Hello rayyeayyen!')
 })
 
-
-app.get('/todo', (req, res) => {
-    Todos.find({}).then((items) => {
-        res.json({
-            data: items,
-            message: 'Sukses Memdapatkan Semua Data',
-        })
-    })
-})
-
-app.get('/todo/:id', (req, res) => {
+/*app.get('/todo/:id', (req, res) => {
     // TODO: implement it :)
-})
+})*/
 
 app.post('/todo', (req, res) => {
     const name = req.params.name
@@ -44,13 +47,15 @@ app.post('/todo', (req, res) => {
     })
 })
 
-app.put('/todo/:id', (req, res) => {
+/*app.put('/todo/:id', (req, res) => {
     // TODO: implement it :)
 })
 
 app.delete('/todo/:id', (req, res) => {
     // TODO: implement it :)
-})
+})*/
+
+app.use('/api', require('./routes/api'))
 
 app.listen(3001, () => {
     console.log(`Server started @ http://localhost:3001`)
