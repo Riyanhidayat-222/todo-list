@@ -2,15 +2,12 @@ const Todos = require('../models/todos')
 
 module.exports.getAllTodos = (req, res) => {
     Todos.find({}).then((todos) => {
-        /*if (err) {
-            res.json({
-                message: 'Error',
-            })
-        }*/
-
+    
         res.json({
             data: todos,
-            message: 'Sukses Memdapatkan Semua Data',
+            message: !todos.length
+                ? "Empty data"
+                : "Data has been fetched successfully",
         })
     })
 }
@@ -53,3 +50,17 @@ module.exports.deleteTodoById = (req, res) => {
         })
     })
 }
+
+module.exports.updateTodoById = async (req, res) => {
+    const data = {
+        name: req.body.task,
+        done: req.body.done
+    }
+
+    Todos.findByIdAndUpdate(req.params.id, data).then((el) => {
+        res.json({
+            message: `Data with id ${req.params.id} has been updated.`
+        })
+    })
+}
+
