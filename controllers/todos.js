@@ -1,33 +1,45 @@
 const Todos = require('../models/todos')
+const filterProp = require('../utils/object')
 
 module.exports.getAllTodos = (req, res) => {
     Todos.find({}).then((todos) => {
     
         res.json({
-            data: todos,
+            data: filterProp(todos, ['id','name', 'done']),
             message: !todos.length
                 ? "Empty data"
-                : "Data has been fetched successfully",
+                : "Data has been fetched successfully"
         })
     })
 }
 
-module.exports.getTodoById = (req, res) => {
-    const id = req.params.id
-    Todos.findbByid(id, (err, todo) => {
-        if (err) {
-            res.json({
-                message: 'Error while getting todo',
-                error: err,
-            })
+module.exports.getTodoById = async (req, res) => {
+    const id = req.params.id;
+
+    try {
+        const todo = await Todos.findById(id);
+
+        if (!todo) {
+            return res.status(404).json({
+                message: 'Todo not found',
+            });
         }
 
         res.json({
-            data: todo,
-            message: 'Success get todo'
-        })
-    })
-}
+            data: {
+                id: todo.id,
+                name: todo.name,
+                done: todo.done
+            },
+            message: 'Success get todo',
+        });
+    } catch (err) {
+        res.status(500).json({
+            message: 'Error while getting todo',
+            error: err,
+        });
+    }
+};
 
 module.exports.addTodo = (req, res) => {
     const task = req.body.task
