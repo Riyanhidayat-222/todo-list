@@ -2,10 +2,10 @@ const Todos = require('../models/todos')
 const filterProp = require('../utils/object')
 
 module.exports.getAllTodos = (req, res) => {
-    Todos.find({}).then((todos) => {
-    
+
+    Todos.find({}).then((todos) => {    
         res.json({
-            data: filterProp(todos, ['id','name', 'done']),
+            data: filterProp(todos, ['id', 'name', 'done']),
             message: !todos.length
                 ? "Empty data"
                 : "Data has been fetched successfully"
